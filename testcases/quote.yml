@@ -1,0 +1,52 @@
+config:
+    name: "OTC quote test"
+    variables: {}
+    base_url: ${ENV(base_url)}
+teststeps:
+-   name: /api/otc/api/v1/quote
+    request:
+        headers:
+            content-type: application/json
+            lang: en
+            token: USER_TOKEN_LOGIN_ad89165c8f9a3cf052d4dfb92836cf90_e85272c974794ed284691111ae59678b
+            user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+                (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
+        json:
+            baseCurrency: BTC
+            orderAmountInOrderCurrency: 0
+            orderCurrency: USD
+            orderSizeInBaseCurrency: '1'
+            side: buy
+        method: POST
+        url: /api/otc/api/v1/quote
+    validate:
+    -   eq:
+        - status_code
+        - 200
+    -   eq:
+        - body.status
+        - 30001
+    -   type_match:
+        - body.quoteId
+        - string
+    -   eq:
+        - body.quoteValidDurationMs
+        - 6000
+    -   eq:
+        - body.quoteAmountToReceive
+        - 1.0
+    -   eq:
+        - body.quoteCurrencyToReceiveIn
+        - BTC
+    -   eq:
+        - body.quoteCurrencyToDeductIn
+        - USD
+    -   eq:
+        - body.memo
+        - null
+    -   eq:
+        - body.clOrderId
+        - null
+    -   eq:
+        - body.side
+        - BUY

@@ -1,0 +1,18 @@
+config:
+    name: "getMarket"
+    variables: {}
+    base_url: ${ENV(base_url)}
+    verify: False
+
+teststeps:
+-   name: getMarket
+    request:
+        headers:
+            lang: en
+            #token: USER_TOKEN_LOGIN_ad89165c8f9a3cf052d4dfb92836cf90_e85272c974794ed284691111ae59678b
+        method: GET
+        url: /api/otc/api/v1/getMarket/
+    validate:
+    -   eq:
+        - status_code
+        - 200
