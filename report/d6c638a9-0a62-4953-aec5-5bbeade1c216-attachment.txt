@@ -1,0 +1,22 @@
+====== response details ======
+status_code: 200
+headers: {
+    "Date": "Fri, 11 Nov 2022 09:05:06 GMT",
+    "Content-Type": "application/json;charset=UTF-8",
+    "Transfer-Encoding": "chunked",
+    "Connection": "keep-alive",
+    "Cache-Control": "no-cache",
+    "X-Frame-Options": "SAMEORIGIN",
+    "Permissions-Policy": "autoplay=(self),camera=(self),fullscreen=(self)",
+    "CF-Cache-Status": "DYNAMIC",
+    "Server": "cloudflare",
+    "CF-RAY": "7685dd409f96a3a5-TPE",
+    "Content-Encoding": "gzip"
+}
+body: {
+    "code": 10002,
+    "msg": "failure",
+    "time": 1668157506688,
+    "data": null,
+    "success": false
+}

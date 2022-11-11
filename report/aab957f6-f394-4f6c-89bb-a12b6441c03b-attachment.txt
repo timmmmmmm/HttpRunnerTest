@@ -1,0 +1,9 @@
+
+
+[32m2022-11-11 17:05:06.697[0m | [1mINFO[0m | [1mStart to run testcase: getMarket, TestCase ID: 15661c85-a154-41af-ae40-7377682d0679[0m
+[32m2022-11-11 17:05:06.706[0m | [1mINFO[0m | [1mrun step begin: getMarket >>>>>>[0m
+[32m2022-11-11 17:05:07.090[0m | [1mINFO[0m | [1mstatus_code: 200, response_time(ms): 254.78 ms, response_length: 0 bytes[0m
+[32m2022-11-11 17:05:07.114[0m | [1mINFO[0m | [1massert status_code equal 200(int)	==> pass[0m
+[32m2022-11-11 17:05:07.115[0m | [1mINFO[0m | [1mrun step end: getMarket <<<<<<
+[0m
+[32m2022-11-11 17:05:07.115[0m | [1mINFO[0m | [1mgenerate testcase log: /Users/timmy.hong/Project/httprunnerTest/logs/15661c85-a154-41af-ae40-7377682d0679.run.log[0m

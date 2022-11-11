@@ -13,6 +13,4 @@ teststeps:
         method: GET
         url: /api/otc/api/v1/getMarket/
     validate:
-    -   eq:
-        - status_code
-        - 200
+    -   eq: ["status_code", 200]

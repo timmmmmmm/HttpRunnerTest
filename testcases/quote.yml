@@ -4,6 +4,9 @@ config:
     base_url: ${ENV(base_url)}
 teststeps:
 -   name: /api/otc/api/v1/quote
+    variables:
+        var1: var1
+        var2: var2
     request:
         headers:
             content-type: application/json
@@ -20,33 +23,12 @@ teststeps:
         method: POST
         url: /api/otc/api/v1/quote
     validate:
-    -   eq:
-        - status_code
-        - 200
-    -   eq:
-        - body.status
-        - 30001
-    -   type_match:
-        - body.quoteId
-        - string
-    -   eq:
-        - body.quoteValidDurationMs
-        - 6000
-    -   eq:
-        - body.quoteAmountToReceive
-        - 1.0
-    -   eq:
-        - body.quoteCurrencyToReceiveIn
-        - BTC
-    -   eq:
-        - body.quoteCurrencyToDeductIn
-        - USD
-    -   eq:
-        - body.memo
-        - null
-    -   eq:
-        - body.clOrderId
-        - null
-    -   eq:
-        - body.side
-        - BUY
+        - eq: ["status_code", 200]
+        - eq: ["body.status", 30001]
+        - eq: ["body.quoteValidDurationMs", 6000]
+        - eq: ["body.quoteAmountToReceive", 1.0]
+        - eq: ["body.quoteCurrencyToReceiveIn", BTC]
+        - eq: ["body.quoteCurrencyToDeductIn", USD]
+        - eq: ["body.memo", null]
+        - eq: ["body.clOrderId", null]
+        - eq: ["body.side", BUY]

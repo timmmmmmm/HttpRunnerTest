@@ -1,0 +1,27 @@
+config:
+    name: "Login"
+    variables: {}
+    base_url: ${ENV(base_url)}
+    verify: False
+
+teststeps:
+-   name: Login
+    variables:
+        var1: value1
+        var2: value2
+    request:
+        headers:
+            lang: en
+        json:
+            password: 02ee0be1761db38a2ab3cb3adab0d4886def79f00fab7ff2c4ec115c26cd3b71
+            captchaId: false
+            captchaNumber: 
+            deviceFingerprint: _vmhjlh1667276599542
+            loginName: TimmyHong
+            keepLogin: false
+        method: POST
+        url: /api/login/
+    validate:
+    -   eq:
+        - status_code
+        - 200

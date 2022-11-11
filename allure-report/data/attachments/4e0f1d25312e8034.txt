@@ -1,0 +1,17 @@
+
+
+[32m2022-11-11 17:05:06.156[0m | [1mINFO[0m | [1mStart to run testcase: OTC quote test, TestCase ID: 5c74e475-3dfb-44d3-85fb-094f0bb0ec80[0m
+[32m2022-11-11 17:05:06.162[0m | [1mINFO[0m | [1mrun step begin: /api/otc/api/v1/quote >>>>>>[0m
+[32m2022-11-11 17:05:06.418[0m | [1mINFO[0m | [1mstatus_code: 200, response_time(ms): 252.02 ms, response_length: 0 bytes[0m
+[32m2022-11-11 17:05:06.420[0m | [1mINFO[0m | [1massert status_code equal 200(int)	==> pass[0m
+[32m2022-11-11 17:05:06.420[0m | [1mINFO[0m | [1massert body.status equal 30001(int)	==> pass[0m
+[32m2022-11-11 17:05:06.420[0m | [1mINFO[0m | [1massert body.quoteValidDurationMs equal 6000(int)	==> pass[0m
+[32m2022-11-11 17:05:06.421[0m | [1mINFO[0m | [1massert body.quoteAmountToReceive equal 1.0(float)	==> pass[0m
+[32m2022-11-11 17:05:06.421[0m | [1mINFO[0m | [1massert body.quoteCurrencyToReceiveIn equal BTC(str)	==> pass[0m
+[32m2022-11-11 17:05:06.422[0m | [1mINFO[0m | [1massert body.quoteCurrencyToDeductIn equal USD(str)	==> pass[0m
+[32m2022-11-11 17:05:06.422[0m | [1mINFO[0m | [1massert body.memo equal None(NoneType)	==> pass[0m
+[32m2022-11-11 17:05:06.422[0m | [1mINFO[0m | [1massert body.clOrderId equal None(NoneType)	==> pass[0m
+[32m2022-11-11 17:05:06.423[0m | [1mINFO[0m | [1massert body.side equal BUY(str)	==> pass[0m
+[32m2022-11-11 17:05:06.423[0m | [1mINFO[0m | [1mrun step end: /api/otc/api/v1/quote <<<<<<
+[0m
+[32m2022-11-11 17:05:06.423[0m | [1mINFO[0m | [1mgenerate testcase log: /Users/timmy.hong/Project/httprunnerTest/logs/5c74e475-3dfb-44d3-85fb-094f0bb0ec80.run.log[0m

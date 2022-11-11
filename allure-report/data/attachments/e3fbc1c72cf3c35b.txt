@@ -1,0 +1,9 @@
+
+
+[32m2022-11-11 17:05:06.433[0m | [1mINFO[0m | [1mStart to run testcase: Login, TestCase ID: 15a40326-9a07-46cc-a89b-dc2d6cc63a7c[0m
+[32m2022-11-11 17:05:06.440[0m | [1mINFO[0m | [1mrun step begin: Login >>>>>>[0m
+[32m2022-11-11 17:05:06.679[0m | [1mINFO[0m | [1mstatus_code: 200, response_time(ms): 234.85 ms, response_length: 0 bytes[0m
+[32m2022-11-11 17:05:06.681[0m | [1mINFO[0m | [1massert status_code equal 200(int)	==> pass[0m
+[32m2022-11-11 17:05:06.682[0m | [1mINFO[0m | [1mrun step end: Login <<<<<<
+[0m
+[32m2022-11-11 17:05:06.683[0m | [1mINFO[0m | [1mgenerate testcase log: /Users/timmy.hong/Project/httprunnerTest/logs/15a40326-9a07-46cc-a89b-dc2d6cc63a7c.run.log[0m

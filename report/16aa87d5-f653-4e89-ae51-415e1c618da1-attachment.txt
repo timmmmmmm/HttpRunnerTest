@@ -1,0 +1,23 @@
+====== request details ======
+url: https://www.btse.co/api/otc/api/v1/quote
+method: POST
+params: {}
+data: None
+cookies: {}
+timeout: 120
+allow_redirects: True
+verify: False
+headers: {
+    "content-type": "application/json",
+    "lang": "en",
+    "token": "USER_TOKEN_LOGIN_ad89165c8f9a3cf052d4dfb92836cf90_e85272c974794ed284691111ae59678b",
+    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+    "HRUN-Request-ID": "HRUN-5c74e475-3dfb-44d3-85fb-094f0bb0ec80-506163"
+}
+json: {
+    "baseCurrency": "BTC",
+    "orderAmountInOrderCurrency": 0,
+    "orderCurrency": "USD",
+    "orderSizeInBaseCurrency": "1",
+    "side": "buy"
+}
