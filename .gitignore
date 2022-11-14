@@ -9,7 +9,7 @@ __pycache__/
 .python-version
 logs/
 report/
-allure-report
+allure-report/
 
 # plugin
 debugtalk.bin
