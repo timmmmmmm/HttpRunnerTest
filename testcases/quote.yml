@@ -55,7 +55,7 @@ teststeps:
         - eq: [ "body.status", 30007 ]
         - eq: [ "body.quoteId", $quoteId]
         - eq: [ "body.quoteAmountToReceive", $buyAmount]
-        - eq: [ "body.quoteCurrencyToReceiveIn" $baseCurrency]
+        - eq: [ "body.quoteCurrencyToReceiveIn", $baseCurrency]
         - eq: [ "body.quoteCurrencyToDeductIn", $orderCurrency]
         - eq: [ "body.side", $side]
     extract:

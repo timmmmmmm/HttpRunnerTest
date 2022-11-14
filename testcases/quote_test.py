@@ -5,40 +5,100 @@ from httprunner import HttpRunner, Config, Step, RunRequest
 
 class TestCaseQuote(HttpRunner):
 
-    config = Config("OTC quote test").base_url("${ENV(base_url)}")
+    config = (
+        Config("Buy OTC quote using BTC to USD")
+        .variables(
+            **{
+                "baseCurrency": "BTC",
+                "orderCurrency": "USD",
+                "buyAmount": 0.01,
+                "buyPrice": "",
+                "quoteId": "",
+                "side": "BUY",
+            }
+        )
+        .base_url("${ENV(base_url)}")
+    )
 
     teststeps = [
         Step(
-            RunRequest("/api/otc/api/v1/quote")
-            .with_variables(**{"var1": "var1", "var2": "var2"})
+            RunRequest("get quote price")
+            .with_variables(**{})
             .post("/api/otc/api/v1/quote")
             .with_headers(
                 **{
                     "content-type": "application/json",
                     "lang": "en",
-                    "token": "USER_TOKEN_LOGIN_ad89165c8f9a3cf052d4dfb92836cf90_e85272c974794ed284691111ae59678b",
+                    "token": "USER_TOKEN_LOGIN_ad89165c8f9a3cf052d4dfb92836cf90_e269458d7f6649a0a11a3cea4e8c306f",
                     "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
                 }
             )
             .with_json(
                 {
-                    "baseCurrency": "BTC",
+                    "baseCurrency": "$baseCurrency",
                     "orderAmountInOrderCurrency": 0,
-                    "orderCurrency": "USD",
-                    "orderSizeInBaseCurrency": "1",
-                    "side": "buy",
+                    "orderCurrency": "$orderCurrency",
+                    "orderSizeInBaseCurrency": "$buyAmount",
+                    "side": "$side",
                 }
             )
+            .extract()
+            .with_jmespath("body.quoteId", "quoteId")
             .validate()
             .assert_equal("status_code", 200)
             .assert_equal("body.status", 30001)
             .assert_equal("body.quoteValidDurationMs", 6000)
-            .assert_equal("body.quoteAmountToReceive", 1.0)
-            .assert_equal("body.quoteCurrencyToReceiveIn", "BTC")
-            .assert_equal("body.quoteCurrencyToDeductIn", "USD")
+            .assert_equal("body.quoteAmountToReceive", "$buyAmount")
+            .assert_equal("body.quoteCurrencyToReceiveIn", "$baseCurrency")
+            .assert_equal("body.quoteCurrencyToDeductIn", "$orderCurrency")
             .assert_equal("body.memo", None)
             .assert_equal("body.clOrderId", None)
-            .assert_equal("body.side", "BUY")
+            .assert_equal("body.side", "$side")
+        ),
+        Step(
+            RunRequest("accept request")
+            .with_variables(**{})
+            .post("/api/otc/api/v1/accept/$quoteId")
+            .with_headers(
+                **{
+                    "content-type": "application/json",
+                    "lang": "en",
+                    "token": "USER_TOKEN_LOGIN_ad89165c8f9a3cf052d4dfb92836cf90_e269458d7f6649a0a11a3cea4e8c306f",
+                    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+                }
+            )
+            .extract()
+            .with_jmespath("body.quotePriceInOrderCurrency", "buyPrice")
+            .validate()
+            .assert_equal("status_code", 200)
+            .assert_equal("body.status", 30007)
+            .assert_equal("body.quoteId", "$quoteId")
+            .assert_equal("body.quoteAmountToReceive", "$buyAmount")
+            .assert_equal("body.quoteCurrencyToReceiveIn", "$baseCurrency")
+            .assert_equal("body.quoteCurrencyToDeductIn", "$orderCurrency")
+            .assert_equal("body.side", "$side")
+        ),
+        Step(
+            RunRequest("query order from otc history")
+            .with_variables(**{})
+            .get(
+                "/api/histories/spotTrades?orderType=OTC&orderMode=ALL_MODES&currency=USD&currentPage=1&pageSize=1"
+            )
+            .with_headers(
+                **{
+                    "content-type": "application/json",
+                    "lang": "en",
+                    "token": "USER_TOKEN_LOGIN_ad89165c8f9a3cf052d4dfb92836cf90_e269458d7f6649a0a11a3cea4e8c306f",
+                    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+                }
+            )
+            .validate()
+            .assert_equal("status_code", 200)
+            .assert_equal("body.data.data[0].orderId", "$quoteId")
+            .assert_equal("body.data.data[0].orderPrice", "$buyPrice")
+            .assert_equal("body.data.data[0].orderSize", "$buyAmount")
+            .assert_equal("body.data.data[0].priceCurrency", "$orderCurrency")
+            .assert_equal("body.data.data[0].netCurrency", "$baseCurrency")
         ),
     ]
 
