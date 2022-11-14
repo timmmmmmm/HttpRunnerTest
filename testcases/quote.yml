@@ -1,34 +1,81 @@
 config:
-    name: "OTC quote test"
-    variables: {}
+    name: "Buy OTC quote using BTC to USD"
+    variables:
+        baseCurrency: BTC
+        orderCurrency: USD
+        buyAmount: 0.01
+        buyPrice: ''
+        quoteId: ''
+        side: BUY
     base_url: ${ENV(base_url)}
 teststeps:
--   name: /api/otc/api/v1/quote
-    variables:
-        var1: var1
-        var2: var2
+-   name: get quote price
+    variables: {}
     request:
         headers:
             content-type: application/json
             lang: en
-            token: USER_TOKEN_LOGIN_ad89165c8f9a3cf052d4dfb92836cf90_e85272c974794ed284691111ae59678b
+            token: USER_TOKEN_LOGIN_ad89165c8f9a3cf052d4dfb92836cf90_e269458d7f6649a0a11a3cea4e8c306f
             user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
                 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
         json:
-            baseCurrency: BTC
+            baseCurrency: $baseCurrency
             orderAmountInOrderCurrency: 0
-            orderCurrency: USD
-            orderSizeInBaseCurrency: '1'
-            side: buy
+            orderCurrency: $orderCurrency
+            orderSizeInBaseCurrency: $buyAmount
+            side: $side
         method: POST
         url: /api/otc/api/v1/quote
     validate:
         - eq: ["status_code", 200]
         - eq: ["body.status", 30001]
         - eq: ["body.quoteValidDurationMs", 6000]
-        - eq: ["body.quoteAmountToReceive", 1.0]
-        - eq: ["body.quoteCurrencyToReceiveIn", BTC]
-        - eq: ["body.quoteCurrencyToDeductIn", USD]
+        - eq: ["body.quoteAmountToReceive", $buyAmount]
+        - eq: ["body.quoteCurrencyToReceiveIn", $baseCurrency]
+        - eq: ["body.quoteCurrencyToDeductIn", $orderCurrency]
         - eq: ["body.memo", null]
         - eq: ["body.clOrderId", null]
-        - eq: ["body.side", BUY]
+        - eq: ["body.side", $side]
+    extract:
+        quoteId: body.quoteId
+
+-   name: accept request
+    variables: { }
+    request:
+        headers:
+            content-type: application/json
+            lang: en
+            token: USER_TOKEN_LOGIN_ad89165c8f9a3cf052d4dfb92836cf90_e269458d7f6649a0a11a3cea4e8c306f
+            user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+                (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
+        method: POST
+        url: /api/otc/api/v1/accept/$quoteId
+    validate:
+        - eq: [ "status_code", 200 ]
+        - eq: [ "body.status", 30007 ]
+        - eq: [ "body.quoteId", $quoteId]
+        - eq: [ "body.quoteAmountToReceive", $buyAmount]
+        - eq: [ "body.quoteCurrencyToReceiveIn" $baseCurrency]
+        - eq: [ "body.quoteCurrencyToDeductIn", $orderCurrency]
+        - eq: [ "body.side", $side]
+    extract:
+        buyPrice: body.quotePriceInOrderCurrency
+
+-   name: query order from otc history
+    variables: {}
+    request:
+        headers:
+            content-type: application/json
+            lang: en
+            token: USER_TOKEN_LOGIN_ad89165c8f9a3cf052d4dfb92836cf90_e269458d7f6649a0a11a3cea4e8c306f
+            user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+                (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
+        method: GET
+        url: /api/histories/spotTrades?orderType=OTC&orderMode=ALL_MODES&currency=USD&currentPage=1&pageSize=1
+    validate:
+        - eq: ["status_code", 200]
+        - eq: ["body.data.data[0].orderId", $quoteId]
+        - eq: ["body.data.data[0].orderPrice", $buyPrice]
+        - eq: ["body.data.data[0].orderSize", $buyAmount]
+        - eq: ["body.data.data[0].priceCurrency", $orderCurrency]
+        - eq: ["body.data.data[0].netCurrency", $baseCurrency]
