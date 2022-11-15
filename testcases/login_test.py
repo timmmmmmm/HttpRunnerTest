@@ -5,23 +5,44 @@ from httprunner import HttpRunner, Config, Step, RunRequest
 
 class TestCaseLogin(HttpRunner):
 
-    config = Config("Login").base_url("${ENV(base_url)}").verify(False)
+    config = Config("Login").variables(**{"2FAToken": ""}).base_url("${ENV(base_url)}")
 
     teststeps = [
         Step(
-            RunRequest("Login")
-            .with_variables(**{"var1": "value1", "var2": "value2"})
-            .post("/api/login/")
-            .with_headers(**{"lang": "en"})
-            .with_json(
-                {
+            RunRequest("Login with user name")
+            .with_variables(
+                **{
+                    "userName": "TimmyHong",
                     "password": "02ee0be1761db38a2ab3cb3adab0d4886def79f00fab7ff2c4ec115c26cd3b71",
-                    "captchaId": False,
-                    "captchaNumber": None,
                     "deviceFingerprint": "_vmhjlh1667276599542",
-                    "loginName": "TimmyHong",
+                }
+            )
+            .post("/api/login/")
+            .with_params(
+                **{
+                    "password": "$password",
+                    "captchaId": False,
+                    "captchaNumber": "",
+                    "deviceFingerprint": "$deviceFingerprint",
+                    "loginName": "$userName",
                     "keepLogin": False,
                 }
+            )
+            .with_headers(
+                **{"content-type": "application/json", "Accept": "application/json"}
+            )
+            .extract()
+            .with_jmespath("body.data.token", "2FAToken")
+            .validate()
+            .assert_equal("status_code", 200)
+            .assert_equal("body.code", 1)
+        ),
+        Step(
+            RunRequest("2FA check")
+            .post("/api/user/check/2FA")
+            .with_params(**{"token": "${2FAToken}", "otpCode": "${add_2FA_code()}"})
+            .with_headers(
+                **{"content-type": "application/json", "Accept": "application/json"}
             )
             .validate()
             .assert_equal("status_code", 200)
