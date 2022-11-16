@@ -2,6 +2,7 @@ config:
     name: "Login"
     variables:
         twoFAToken: "check"
+        secret: ${ENV(secret)}
     base_url: ${ENV(base_url)}
 
 teststeps:
@@ -36,7 +37,7 @@ teststeps:
             Accept: application/json
         params:
             token: $twoFAToken
-            otpCode: ${add_2FA_code()}
+            otpCode: ${add_2FA_code($secret)}
         method: POST
         url: /api/user/check/2FA
     validate:

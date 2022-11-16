@@ -1,5 +1,6 @@
 import logging
 import time
+import pyotp
 from typing import List
 
 
@@ -28,9 +29,7 @@ def teardown_hook_example(name):
     logging.warning("teardown_hook_example")
     return f"teardown_hook_example: {name}"
 
-def add_2FA_code():
-    code = 0
+def add_2FA_code(secret):
+    totp = pyotp.TOTP(secret)
+    code = totp.now()
     return code
-
-def print(input):
-    print(input)

@@ -16,5 +16,4 @@ if __name__ == "__main__":
     funppy.register("setup_hook_example", setup_hook_example)
     funppy.register("teardown_hook_example", teardown_hook_example)
     funppy.register("add_2FA_code", add_2FA_code)
-    funppy.register("print", print)
     funppy.serve()

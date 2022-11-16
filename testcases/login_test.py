@@ -5,7 +5,11 @@ from httprunner import HttpRunner, Config, Step, RunRequest
 
 class TestCaseLogin(HttpRunner):
 
-    config = Config("Login").variables(**{"2FAToken": ""}).base_url("${ENV(base_url)}")
+    config = (
+        Config("Login")
+        .variables(**{"twoFAToken": "check", "secret": "${ENV(secret)}"})
+        .base_url("${ENV(base_url)}")
+    )
 
     teststeps = [
         Step(
@@ -32,7 +36,7 @@ class TestCaseLogin(HttpRunner):
                 **{"content-type": "application/json", "Accept": "application/json"}
             )
             .extract()
-            .with_jmespath("body.data.token", "2FAToken")
+            .with_jmespath("body.data.token", "twoFAToken")
             .validate()
             .assert_equal("status_code", 200)
             .assert_equal("body.code", 1)
@@ -40,7 +44,9 @@ class TestCaseLogin(HttpRunner):
         Step(
             RunRequest("2FA check")
             .post("/api/user/check/2FA")
-            .with_params(**{"token": "${2FAToken}", "otpCode": "${add_2FA_code()}"})
+            .with_params(
+                **{"token": "$twoFAToken", "otpCode": "${add_2FA_code($secret)}"}
+            )
             .with_headers(
                 **{"content-type": "application/json", "Accept": "application/json"}
             )
