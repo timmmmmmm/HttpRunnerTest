@@ -1,4 +1,0 @@
-"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Fri Nov 11 18:28:59 CST 2022","Fri Nov 11 18:28:59 CST 2022","275","testcases","quote_test","TestCaseQuote","","","OTC quote test","TestCase ID: ae2c7853-fe8a-4c4e-ae0d-2944b18b0ce4"
-"passed","Fri Nov 11 18:29:00 CST 2022","Fri Nov 11 18:29:00 CST 2022","343","testcases","login_test","TestCaseLogin","","","Login","TestCase ID: 848c4945-5d47-42b3-b826-e327eacf8d4e"
-"passed","Fri Nov 11 18:28:59 CST 2022","Fri Nov 11 18:29:00 CST 2022","431","testcases","getMarket_test","TestCaseGetmarket","","","getMarket","TestCase ID: 1733d367-2029-4792-af0b-002da4005e59"
