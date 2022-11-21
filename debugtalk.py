@@ -33,3 +33,9 @@ def add_2FA_code(secret):
     totp = pyotp.TOTP(secret)
     code = totp.now()
     return code
+
+def setup_hook_before_case():
+    return logging.info('---------Before Case Execute---------')
+
+def setup_hook_after_case():
+    return logging.info('---------After Case Execute---------')

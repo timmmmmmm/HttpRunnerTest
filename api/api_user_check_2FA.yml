@@ -1,0 +1,14 @@
+name: 2FA check
+request:
+    headers:
+        content-type: application/json
+        Accept: application/json
+        user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+                (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
+    params:
+        token: $twoFAToken
+        otpCode: ${add_2FA_code($secret)}
+    method: POST
+    url: /api/user/check/2FA
+validate:
+    - eq: ["status_code", 200]

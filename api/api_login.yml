@@ -1,0 +1,23 @@
+name: Login with user name
+variables:
+    userName: TimmyHong
+    password: 02ee0be1761db38a2ab3cb3adab0d4886def79f00fab7ff2c4ec115c26cd3b71
+    deviceFingerprint: _vmhjlh1667276599542
+request:
+    headers:
+        content-type: application/json
+        Accept: application/json
+        user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+                (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
+    params:
+        password: $password
+        captchaId: false
+        captchaNumber: ''
+        deviceFingerprint: $deviceFingerprint
+        loginName: $userName
+        keepLogin: false
+    method: POST
+    url: /api/login/
+validate:
+    - eq: ["status_code", 200]
+    - eq: ["body.code", 1]

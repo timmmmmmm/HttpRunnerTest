@@ -7,20 +7,22 @@ config:
         buyPrice: ''
         quoteId: ''
         side: BUY
-        userTokenLogin: USER_TOKEN_LOGIN_ad89165c8f9a3cf052d4dfb92836cf90_82a05397ce6340398f3eb308ffd3298f
     base_url: ${ENV(base_url)}
-#    setup_hooks:
-#        - ${func()}
-#    teardown_hooks:
-#        - ${func()}
+    verify: False
+
 teststeps:
+-   name: refresh user login token
+    testcase: testcases/login.yml
+    export:
+        - userToken
+
 -   name: get quote price
     variables: {}
     request:
         headers:
             content-type: application/json
             lang: en
-            token: $userTokenLogin
+            token: $userToken
             user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
                 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
         json:
@@ -50,7 +52,7 @@ teststeps:
         headers:
             content-type: application/json
             lang: en
-            token: $userTokenLogin
+            token: $userToken
             user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
                 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
         method: POST
@@ -72,7 +74,7 @@ teststeps:
         headers:
             content-type: application/json
             lang: en
-            token: $userTokenLogin
+            token: $userToken
             user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
                 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
         method: GET
