@@ -10,6 +10,7 @@ __pycache__/
 logs/
 report/
 allure-report/
+.env
 
 # plugin
 debugtalk.bin
